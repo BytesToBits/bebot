@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'discord';
+    src: url('/assets/fonts/discord_m-webfont.woff2') format('woff2'),
+         url('/assets/fonts/discord_m-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'discord-bold';
+    src: url('/assets/fonts/discord_sb-webfont.woff2') format('woff2'),
+         url('/assets/fonts/discord_sb-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+    font-family: 'discord';
+}
+
+.guild-icon {
+    border-radius: calc(100%);
+    transition: .2s linear;
+    
+    &:hover {
+        border-radius: calc(1rem);
+    }
+}
+
+.hideScroll {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.avatar {
+    // margin-top: calc(4px - .125rem);
+    // width: 40px;
+    // height: 40px;
+    // border-radius: 50%;
+    // overflow: hidden;
+    // cursor: pointer;
+    // -webkit-user-select: none;
+    // -moz-user-select: none;
+    // -ms-user-select: none;
+    // user-select: none;
+    // -webkit-box-flex: 0;
+    // -ms-flex: 0 0 auto;
+    // flex: 0 0 auto;
+    // pointer-events: none;
+    // z-index: 1;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-top: calc(4px - .125rem);
+    pointer-events: none;
+    user-select: none;
+}
