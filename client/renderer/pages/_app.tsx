@@ -2,13 +2,25 @@ import type { AppProps } from 'next/app'
 import { ChakraProvider, Image } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/layout'
 import theme from '../styles/theme'
-import Router from "next/router"
+import Router, { useRouter } from "next/router"
 import Head from "next/head"
 
 import "../styles/app.scss"
 import ColorModeManager from '../components/ColorModeManager'
+import { useEffect, useState } from 'react'
+import { ipcRenderer } from 'electron'
+import useFetch from '../hooks/useFetch'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const Fetch = useFetch()
+  const router = useRouter()
+
+  useEffect(() => {
+    if(!Fetch.hasFetched) {
+      Fetch.init()
+      ipcRenderer.on('goto', (_, page) => router.push(page))
+    }
+  })
 
   return (
     <ChakraProvider resetCSS theme={theme}>

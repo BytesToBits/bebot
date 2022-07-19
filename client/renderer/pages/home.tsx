@@ -11,7 +11,6 @@ export default function Home() {
   const [firstFetch, setFirstFetch] = useState(false)
   const [connected, setConnected] = useState(true)
   const [update, setUpdate] = useState<UpdateInterface>({ mode: null })
-  const [tokenInput, setTokenInput] = useState<ChangeEvent<HTMLInputElement> | null>(null)
   const [client, setClient] = useState<ClientInterface>({})
 
   const [guilds, setGuilds] = useState<GuildInterface[]>([])
@@ -94,17 +93,6 @@ export default function Home() {
 
   return (
     <>
-      {!client.application && (
-        <AbsoluteCenter w="400px">
-          <FormControl isRequired>
-            <FormLabel>Bot Token</FormLabel>
-            <Input onChange={setTokenInput} />
-          </FormControl>
-          <Button colorScheme={"green"} color="white" mt={3} fontWeight="normal" onClick={async () => {
-            await ipcRenderer.invoke('discord-login', tokenInput.target.value)
-          }}>Login</Button>
-        </AbsoluteCenter>
-      )}
       {client.application && !_.isEmpty(guilds) && (
         <Flex maxH="100vh" maxW="100vw">
           <VStack h="100vh" minW="72px" bg="discord.black" overflow="auto" p={2} className="hideScroll">

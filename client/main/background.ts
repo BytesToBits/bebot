@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import serve from 'electron-serve';
 import { client } from './discord/main';
 import { createWindow } from './helpers';
@@ -31,7 +31,7 @@ let mainWindow: BrowserWindow | null
     }
   });
 
-  await mainWindow.loadURL(utils.renderPage("home"));
+  await mainWindow.loadURL(utils.renderPage("auth"));
 
   if(isProd) {
     Updates.init()
@@ -40,7 +40,6 @@ let mainWindow: BrowserWindow | null
   
   IPCEvents()
   DSCEvents()
-
 })();
 
 app.on('window-all-closed', () => {

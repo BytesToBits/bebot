@@ -1,26 +1,5 @@
-@font-face {
-    font-family: 'discord';
-    src: url('/assets/fonts/discord_m-webfont.woff2') format('woff2'),
-         url('/assets/fonts/discord_m-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'discord-bold';
-    src: url('/assets/fonts/discord_sb-webfont.woff2') format('woff2'),
-         url('/assets/fonts/discord_sb-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 * {
-    font-family: 'discord';
+    font-family: Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .guild-icon {
