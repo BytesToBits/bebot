@@ -9,5 +9,5 @@ client.on('ready', () => {
 })
 
 client.on('message', (message) => {
-    if(mainWindow) mainWindow.webContents.send('new-message', message.toJSON())
+    if(mainWindow) mainWindow.webContents.send('send-message', message.channelId)
 })

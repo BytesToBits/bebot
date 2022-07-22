@@ -10,14 +10,14 @@ interface DM {
     key?: any
 }
 
-export default function DiscordMessage({ message }: DM) {
+export default function DiscordMessage({ message, ...props }: DM) {
     const momentum = moment(message.createdTimestamp)
     const date = momentum.format("MM/DD/YYYY hh:mm A")
     const fullDate = momentum.format("dddd, MMMM Do, YYYY HH:mm:ss A")
 
     return (
-        <Flex py={2} px={5} w="100%" gap={2} _hover={{ background: darken("discord.light", 2) }}>
-            <Image className="avatar" src={`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=4096`} />
+        <Flex {...props} py={2} px={5} w="100%" gap={2} _hover={{ background: "rgba(255,0,0,0.3)" }}>
+            <Image className="avatar" fallbackSrc="https://discord.com/assets/3c6ccb83716d1e4fb91d3082f6b21d77.png" src={`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=4096`} />
 
             <Box w="100%">
                 <Flex alignItems="baseline">

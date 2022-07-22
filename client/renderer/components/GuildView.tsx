@@ -1,13 +1,13 @@
 import { Box, Collapse, Flex, Icon, useDisclosure, VStack } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChannelInterface } from "../interfaces/ChannelInterface";
 import { GuildInterface } from "../interfaces/GuildInterface";
 
-import { colors } from "../styles/theme"
 import { AiOutlineRight } from "react-icons/ai"
 import ChannelView from "./ChannelView";
+import EllipsisText from "react-ellipsis-text";
 
 interface GVI {
     guild: GuildInterface,
@@ -23,8 +23,8 @@ interface CI {
 const Channel = ({ data, setSelected }: CI) => {
 
     return (
-        <Box onClick={() => setSelected(data)} fontSize="16px" key={data.id} _hover={{ background: "discord.light" }} w="224px" h="34px" rounded="md" cursor="pointer" p={1}>
-            {data.name}
+        <Box onClick={() => setSelected(data)} fontSize="16px" key={data.id} _hover={{ background: "red.700" }} w="224px" h="34px" rounded="md" cursor="pointer" p={1}>
+            <EllipsisText text={data.name} length={19} />
         </Box>
     )
 }
@@ -36,11 +36,11 @@ const Category = ({ data, channels, setSelected }: CI) => {
 
     return (
         <Box minW="224px" key={data.id} userSelect="none" color="gray.200" fontSize="12px">
-            <Box _hover={{ background: "discord.light" }} display="inline-block" h="34px" rounded="md" textTransform={"uppercase"}  cursor="pointer" p={1} onClick={onToggle}>
-                <Icon as={AiOutlineRight} transform={isOpen ? "rotate(90deg)" : ""} transition=".1s linear" /> {data.name}
+            <Box fontWeight="bold" fontSize="xs"  _hover={{ background: "red.800" }} display="inline-block" h="34px" rounded="md" textTransform={"uppercase"}  cursor="pointer" p={1} onClick={onToggle}>
+                <Icon as={AiOutlineRight} transform={isOpen ? "rotate(90deg)" : ""} transition=".1s linear" /> <EllipsisText text={data.name} length={19} />
             </Box>
             
-            <Box pl={2}>
+            <Box px={2}>
                 <Collapse in={isOpen}>
                     {channels.map(c => <Channel setSelected={setSelected} data={c} key={c.id} />)}
                 </Collapse>
@@ -68,8 +68,8 @@ export default function GuildView({ guild }: GVI) {
 
     return (
         <>
-            <VStack w="240px" bg="discord.dark" borderTopLeftRadius={"xl"}>
-                <Flex h="48px" fontSize="15px" w="100%" alignItems="center" p={2} fontFamily="discord-bold" borderBottom={`1.5px solid ${colors.discord.black}`} >
+            <VStack w="240px" bg="blackAlpha.800" borderRight="2px solid red" roundedRight={"xl"}>
+                <Flex h="48px" fontSize="15px" w="100%" alignItems="center" p={2} fontWeight="bold" borderBottom={`1.5px solid red`} >
                     {guild.name}
                 </Flex>
 

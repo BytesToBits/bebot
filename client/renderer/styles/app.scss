@@ -2,12 +2,30 @@
     font-family: Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+#particles-js {
+    z-index: -1;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+}
+
 .guild-icon {
+    filter: grayscale(1);
     border-radius: calc(100%);
     transition: .2s linear;
+    transform: scale(.8);
     
     &:hover {
         border-radius: calc(1rem);
+        filter: grayscale(0);
+        transform: scale(1);
+    }
+
+    &.selected {
+        border-radius: calc(1rem);
+        filter: grayscale(0);
+        transform: scale(1);
     }
 }
 

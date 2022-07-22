@@ -1,4 +1,4 @@
-import { Button, Input, InputGroup, InputRightAddon, Text, VStack } from "@chakra-ui/react";
+import { Input, VStack } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useEffect, useRef, useState } from "react";
 import { ChannelInterface } from "../interfaces/ChannelInterface";
@@ -13,38 +13,43 @@ export default function ChannelView({ channel }: CVI) {
     const [fetch, setFetch] = useState(false)
     const [messages, setMessages] = useState<MessageInterface[]>([])
     const bottomRef = useRef<HTMLDivElement>(null)
-    const [message, setMessage] = useState("")
 
     useEffect(() => {
         if (!fetch) {
             setFetch(true)
-            setInterval(() => ipcRenderer.invoke('get-history', channel.id).then((m) => {
-                setMessages(m.reverse())
-
-                if (bottomRef.current) {
-                    bottomRef.current.scrollIntoView({ behavior: "smooth" })
+            ipcRenderer.on('send-message', (_, channelID) => {
+                if (channel.id == channelID) {
+                    ipcRenderer.invoke('get-history', channel.id).then(setMessages)
                 }
-            }), 1000)
+            })
+
+            ipcRenderer.invoke('get-history', channel.id).then(setMessages)
         }
     })
 
     return (
-        <VStack w="100%" alignItems="start" h="100vh" overflow="auto" bg="discord.light">
+        <VStack ref={bottomRef} id="bottom" w="100%" alignItems="start" h="100vh" overflow="auto" bg="blackAlpha.800">
 
             {/* @ts-ignore */}
-            {messages.map(m => <DiscordMessage message={m} key={m.id} />)}
+            {messages.map(m => <DiscordMessage message={m} key={m.id} onLoad={e => e.target.scrollIntoView({ behavior: "smooth" })} />)}
 
-            {/* @ts-ignore */}
-            <div id="bottom" ref={bottomRef} onLoad={(e) => e.target.scrollIntoView({ behavior: "smooth" })} />
-            <InputGroup position="sticky" bottom="0" bg="discord.light">
-                <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-                <InputRightAddon cursor="pointer" userSelect="none" onClick={async() => {
-                    setMessage("")
-                    await ipcRenderer.invoke("send-message", message, channel.id)
-                }}>
-                        Send
-                </InputRightAddon>
-            </InputGroup>
+            <form style={{ position:"sticky", bottom: "0px", width: "100%" }} onSubmit={(e) => {
+                e.preventDefault()
+
+                // @ts-ignore
+                const message = e.target.message.value
+
+                if(message) {
+                    ipcRenderer.invoke('send-message', message, channel.id)
+
+                    // @ts-ignore
+                    e.target.message.value = ""
+                }
+            }}>
+
+                <Input name="message" rounded="none" borderBottomLeftRadius={"10px"} bg="black" border="2px solid red" variant="flushed" placeholder="Message" p={2} colorScheme="red"  />
+                <Input type="submit" hidden />
+            </form>
         </VStack>
     )
 }

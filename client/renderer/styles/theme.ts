@@ -13,7 +13,7 @@ const breakpoints = createBreakpoints({
 })
 
 export const colors = {
-    background: "#202225",
+    background: "black",
     discord: {
         dark: "#2F3136",
         black: "#202225",

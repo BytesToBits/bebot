@@ -39,7 +39,7 @@ export default function Auth() {
                 borderRight={"5px solid red"}
                 borderBottom={"5px solid white"}
                 borderLeft={"5px solid white"}
-                bg="blackAlpha.500"
+                bg="black"
                 w="480px"
                 gap={5}
                 alignItems="center"

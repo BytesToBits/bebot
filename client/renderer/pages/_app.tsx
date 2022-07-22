@@ -1,13 +1,13 @@
 import type { AppProps } from 'next/app'
-import { ChakraProvider, Image } from '@chakra-ui/react'
+import { ChakraProvider, Box } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/layout'
 import theme from '../styles/theme'
-import Router, { useRouter } from "next/router"
+import { useRouter } from "next/router"
 import Head from "next/head"
 
 import "../styles/app.scss"
 import ColorModeManager from '../components/ColorModeManager'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ipcRenderer } from 'electron'
 import useFetch from '../hooks/useFetch'
 
@@ -19,11 +19,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     if(!Fetch.hasFetched) {
       Fetch.init()
       ipcRenderer.on('goto', (_, page) => router.push(page))
+
+      for(let src of ["particles.js", "app.js"]) {
+        const script = document.createElement('script')
+        script.src = `/scripts/${src}`
+        script.async = true
+        document.body.appendChild(script)
+      }
     }
   })
 
   return (
     <ChakraProvider resetCSS theme={theme}>
+      <Box id="particles-js" />
       <ColorModeManager />
       <Head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />

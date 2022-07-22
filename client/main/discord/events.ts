@@ -40,7 +40,7 @@ const init = async () => {
 
         // @ts-ignore
         const channel: TextChannel = await client.channels.fetch(channelID)
-        return (await channel.messages.fetch({ limit: 100 })).toJSON()
+        return (await channel.messages.fetch({ limit: 100 })).toJSON().reverse()
     })
 
     ipcMain.handle('send-message', async(_, message: string, channelID: string) => {
