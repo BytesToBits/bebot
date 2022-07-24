@@ -34,8 +34,8 @@ export default function Markdown({ children }) {
                 li({ children }) { return <Text>{children}</Text> },
                 blockquote({ children }) {
                     return (
-                    <Flex>
-                        <Box h="parent" w="5px" bg="gray" mr={2} rounded="xl" />
+                    <Flex wrap="wrap">
+                        <Box h="parent" w="5px" bg="gray" mr={2} />
                         {children}
                     </Flex>
                     )

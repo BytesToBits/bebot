@@ -1,13 +1,14 @@
 import { Box, Collapse, Flex, Icon, useDisclosure, VStack } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import _ from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChannelInterface } from "../interfaces/ChannelInterface";
 import { GuildInterface } from "../interfaces/GuildInterface";
 
 import { AiOutlineRight } from "react-icons/ai"
 import ChannelView from "./ChannelView";
 import EllipsisText from "react-ellipsis-text";
+import RoleInterface from "../interfaces/RoleInterface";
 
 interface GVI {
     guild: GuildInterface,
@@ -53,18 +54,30 @@ export default function GuildView({ guild }: GVI) {
     const [selectedChannel, setSelectedChannel] = useState<ChannelInterface | null>(null)
 
     const [channels, setChannels] = useState<ChannelInterface[]>([])
+    const [roles, setRoles] = useState<RoleInterface[]>([])
 
-    for (let channel of guild.channels) {
-        if (channels.find((e) => e.id == channel)) continue
-
-        ipcRenderer.invoke('get-channel', channel).then((data: ChannelInterface) => {
-            if (!channels.includes(data)) {
-                if (data.type == "GUILD_TEXT" || data.type == "GUILD_CATEGORY" || data.type == "GUILD_NEWS") {
+    useEffect(() => {
+        for (let channel of guild.channels) {
+            if (channels.find((e) => e.id == channel)) continue
+    
+            ipcRenderer.invoke('get-channel', channel).then((data: ChannelInterface) => {
+                if (!channels.includes(data)) {
                     setChannels([...channels, data].sort((a, b) => a.rawPosition - b.rawPosition))
                 }
-            }
-        })
-    }
+            })
+        }
+
+        for (let role of guild.roles) {
+            if (roles.find(e => e.id == role)) continue
+            
+            ipcRenderer.invoke('get-role', guild.id, role).then((data: RoleInterface) => {
+                if(!roles.includes(data)) {
+                    setRoles([...roles, data])
+                }
+            })
+        }
+
+    }, [channels, roles])
 
     return (
         <>
@@ -84,6 +97,12 @@ export default function GuildView({ guild }: GVI) {
             </VStack>
 
             {!_.isEmpty(channels) && selectedChannel && <ChannelView key={selectedChannel.id} channel={selectedChannel} />}
+
+            <VStack
+                ml="auto"
+            >
+                
+            </VStack>
         </>
     )
 }

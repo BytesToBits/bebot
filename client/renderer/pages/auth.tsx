@@ -21,8 +21,6 @@ export default function Auth() {
         }
     })
 
-    console.log(client)
-
     if (client.application) {
         router.push("/home")
     }

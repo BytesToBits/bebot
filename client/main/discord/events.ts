@@ -32,6 +32,13 @@ const init = async () => {
         return (await client.guilds.fetch(guildID)).toJSON()
     })
 
+    ipcMain.handle('get-role', async(_, guildID: string, roleID: string) => {
+        const guild = await client.guilds.fetch(guildID)
+        const role = await guild.roles.fetch(roleID)
+
+        return role.toJSON()
+    })
+
     ipcMain.handle('get-channel', async(_, channelID: string) => {
         return (await client.channels.fetch(channelID)).toJSON()
     })
@@ -41,6 +48,15 @@ const init = async () => {
         // @ts-ignore
         const channel: TextChannel = await client.channels.fetch(channelID)
         return (await channel.messages.fetch({ limit: 100 })).toJSON().reverse()
+    })
+
+    ipcMain.handle('trigger-typing', async(_, channelID: string) => {
+        if(channelID) {
+            // @ts-ignore
+            const channel:TextChannel = await client.channels.fetch(channelID)
+            
+            await channel.sendTyping()
+        }
     })
 
     ipcMain.handle('send-message', async(_, message: string, channelID: string) => {
